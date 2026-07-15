@@ -1,0 +1,238 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import { furnitureCategories, whatsappLink } from '../data/site.js';
+
+const desc =
+  'Explore furniture for every space in Nagpur — living room, bedroom, modular kitchen, office and commercial furniture. Custom-made sofas, wardrobes, TV units, workstations and more.';
+---
+
+<BaseLayout title="Custom Furniture in Nagpur — For Every Space" description={desc}>
+  <!-- Video-background banner (falls back to a poster image) -->
+  <section class="fbanner">
+    <video
+      class="fbanner__video"
+      autoplay
+      muted
+      loop
+      playsinline
+      poster="https://images.unsplash.com/photo-1616627561950-9f746e330187?auto=format&fit=crop&w=1800&q=80"
+    >
+      <source
+        src="https://cdn.coverr.co/videos/coverr-a-modern-living-room-2633/1080p.mp4"
+        type="video/mp4"
+      />
+    </video>
+    <div class="fbanner__overlay"></div>
+    <div class="container fbanner__content">
+      <span class="eyebrow">Furniture For You</span>
+      <h1>Furniture That Defines Your Lifestyle</h1>
+      <p>Made-to-measure pieces for living rooms, bedrooms, kitchens and offices — crafted in our Nagpur factory.</p>
+      <div class="btn-row">
+        <a class="btn btn--brass btn--lg" href="#categories">Browse Categories <Icon name="arrowRight" size={18} /></a>
+        <a class="btn btn--ghost btn--lg" href={whatsappLink('Hi Veer Furnitech, I want to book custom furniture.')} target="_blank" rel="noopener">
+          <Icon name="whatsapp" size={18} /> Book Now
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="categories">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">Our range</span>
+        <h2>Furniture for every corner of your space</h2>
+        <p>Each piece is customisable in size, material and finish to fit your room and budget.</p>
+      </div>
+    </div>
+
+    <div class="cats">
+      {furnitureCategories.map((cat, i) => (
+        <article class={`cat reveal ${i % 2 === 1 ? 'cat--flip' : ''}`} id={cat.id}>
+          <div class="container cat__inner">
+            <div class="cat__media">
+              <img src={cat.image} alt={cat.alt} loading="lazy" width="1200" height="800" />
+            </div>
+            <div class="cat__body">
+              <span class="cat__index">0{i + 1}</span>
+              <h3>{cat.title}</h3>
+              <p>{cat.description}</p>
+              <ul class="cat__items">
+                {cat.items.map((item) => <li>{item}</li>)}
+              </ul>
+              <a class="btn btn--outline" href={whatsappLink(`Hi, I'm interested in ${cat.title}.`)} target="_blank" rel="noopener">
+                <Icon name="whatsapp" size={16} /> Enquire on WhatsApp
+              </a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <CtaBanner
+    title="Book Your Custom Furniture Today"
+    text="Tell us your space and style — we'll design, build and install furniture made just for you."
+    primaryLabel="Book Now"
+  />
+
+  <!-- Sticky book-now bar on mobile -->
+  <a class="sticky-book" href={whatsappLink('Hi Veer Furnitech, I want to book custom furniture.')} target="_blank" rel="noopener">
+    <Icon name="whatsapp" size={20} /> Book Your Furniture
+  </a>
+</BaseLayout>
+
+<style>
+  .fbanner {
+    position: relative;
+    min-height: clamp(460px, 78vh, 720px);
+    display: grid;
+    align-items: center;
+    color: #fff;
+    overflow: hidden;
+  }
+  .fbanner__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .fbanner__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      100deg,
+      rgba(36, 10, 10, 0.85),
+      rgba(74, 20, 20, 0.55) 60%,
+      rgba(74, 20, 20, 0.35)
+    );
+  }
+  .fbanner__content {
+    position: relative;
+    max-width: 720px;
+    padding-block: 4rem;
+  }
+  .fbanner__content h1 {
+    color: #fff;
+    font-size: clamp(2.3rem, 5.5vw, 4rem);
+    margin-bottom: 0.7rem;
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  }
+  .fbanner__content p {
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
+    color: #f2ddd4;
+    max-width: 52ch;
+    margin-bottom: 1.8rem;
+  }
+
+  /* Category sections */
+  .cats {
+    display: grid;
+  }
+  .cat {
+    padding-block: clamp(2.5rem, 5vw, 4rem);
+  }
+  .cat:nth-child(even) {
+    background: var(--cream-2);
+  }
+  .cat__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.6rem, 4vw, 3.5rem);
+    align-items: center;
+  }
+  .cat--flip .cat__media {
+    order: 2;
+  }
+  .cat__media {
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .cat__media img {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    transition: transform 0.6s var(--ease);
+  }
+  .cat:hover .cat__media img {
+    transform: scale(1.05);
+  }
+  .cat__index {
+    font-family: var(--font-head);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--brass);
+    letter-spacing: 0.1em;
+  }
+  .cat__body h3 {
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    margin: 0.3rem 0 0.6rem;
+  }
+  .cat__body > p {
+    color: var(--muted);
+    margin-bottom: 1.2rem;
+  }
+  .cat__items {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.6rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .cat__items li {
+    background: var(--white);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.86rem;
+    font-weight: 500;
+    transition: transform 0.2s var(--ease), border-color 0.2s var(--ease),
+      color 0.2s var(--ease);
+  }
+  .cat__items li:hover {
+    border-color: var(--maroon);
+    color: var(--maroon);
+    transform: translateY(-2px);
+  }
+  .cat:nth-child(even) .cat__items li {
+    background: var(--cream);
+  }
+  @media (max-width: 820px) {
+    .cat__inner,
+    .cat--flip .cat__inner {
+      grid-template-columns: 1fr;
+    }
+    .cat--flip .cat__media {
+      order: -1;
+    }
+  }
+
+  /* Sticky mobile book bar */
+  .sticky-book {
+    display: none;
+    position: fixed;
+    left: 0.9rem;
+    right: 0.9rem;
+    bottom: 0.9rem;
+    z-index: 80;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.95rem;
+    border-radius: 999px;
+    background: #25d366;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 14px 30px -8px rgba(0, 0, 0, 0.4);
+  }
+  @media (max-width: 640px) {
+    .sticky-book {
+      display: inline-flex;
+    }
+  }
+</style>

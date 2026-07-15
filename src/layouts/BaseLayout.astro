@@ -1,0 +1,123 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FloatingActions from '../components/FloatingActions.astro';
+import { business } from '../data/site.js';
+
+const {
+  title,
+  description,
+  keywords = 'Furniture in Nagpur, Interior Designer in Nagpur, Modular Kitchen Nagpur, Custom Furniture Nagpur, Office Furniture Nagpur',
+  image = '/og-image.jpg',
+  noindex = false,
+} = Astro.props;
+
+const siteName = business.name;
+const fullTitle = title
+  ? `${title} | ${siteName}`
+  : `${siteName} — Furniture & Interior Design in Nagpur`;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL(image, Astro.site).href;
+
+// LocalBusiness structured data for local SEO / rich results.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FurnitureStore',
+  name: business.name,
+  image: ogImage,
+  url: Astro.site?.href,
+  telephone: business.phone,
+  email: business.email,
+  priceRange: '₹₹',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: `${business.address.line1}, ${business.address.line2}`,
+    addressLocality: business.address.city,
+    addressRegion: business.address.region,
+    postalCode: business.address.postalCode,
+    addressCountry: 'IN',
+  },
+  areaServed: 'Nagpur, Maharashtra',
+  openingHours: 'Mo-Sa 10:00-20:00',
+  sameAs: [
+    business.social.instagram,
+    business.social.facebook,
+    business.social.linkedin,
+  ],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="author" content={siteName} />
+    <meta name="theme-color" content="#6b1d1d" />
+    <meta name="geo.region" content="IN-MH" />
+    <meta name="geo.placename" content="Nagpur" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="en_IN" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Fonts: preconnect for performance, then load display swap -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <FloatingActions />
+
+    <script>
+      // Scroll-reveal: fade elements in as they enter the viewport.
+      const els = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window && els.length) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+        );
+        els.forEach((el) => io.observe(el));
+      } else {
+        els.forEach((el) => el.classList.add('is-visible'));
+      }
+    </script>
+  </body>
+</html>

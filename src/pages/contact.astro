@@ -1,0 +1,383 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageBanner from '../components/PageBanner.astro';
+import Icon from '../components/Icon.astro';
+import { business } from '../data/site.js';
+
+const desc =
+  'Contact Veer Furnitech in Nagpur for furniture & interior design. Call, WhatsApp 83298 10138 or send us a message. Visit us at Hingna MIDC, Nagpur – 440016.';
+---
+
+<BaseLayout title="Contact Us — Furniture & Interiors in Nagpur" description={desc}>
+  <PageBanner
+    eyebrow="Contact"
+    title="Get in Touch With Us"
+    subtitle="Tell us about your space — our Nagpur team will get back to you with ideas and a free quote."
+    image="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1800&q=80"
+  />
+
+  <section class="section">
+    <div class="container contact">
+      <!-- Form -->
+      <div class="contact__form-wrap reveal">
+        <span class="eyebrow">Send an enquiry</span>
+        <h2>Request a free consultation</h2>
+        <p class="contact__lead">
+          Fill in the form and choose to reach us on WhatsApp or by email — whichever suits you.
+        </p>
+
+        <form class="contact-form" data-contact-form novalidate>
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" autocomplete="name" required placeholder="Your full name" />
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" required placeholder="10-digit mobile number" pattern="[0-9+\s-]{7,15}" />
+            </div>
+            <div class="field">
+              <label for="email">Email <span class="opt">(optional)</span></label>
+              <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="4" required placeholder="Tell us what you're looking for — e.g. a modular kitchen, wardrobes, office furniture..."></textarea>
+          </div>
+
+          <p class="form-error" data-form-error hidden>Please fill in your name, phone and message.</p>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn--lg" data-send="whatsapp">
+              <Icon name="whatsapp" size={18} /> Send via WhatsApp
+            </button>
+            <button type="submit" class="btn btn--outline btn--lg" data-send="email">
+              <Icon name="mail" size={18} /> Send via Email
+            </button>
+          </div>
+          <p class="form-note">By submitting, you agree to be contacted about your enquiry.</p>
+        </form>
+      </div>
+
+      <!-- Details -->
+      <aside class="contact__aside reveal" data-delay="2">
+        <div class="contact-card">
+          <h3>Contact details</h3>
+          <ul class="contact-list">
+            <li>
+              <span class="contact-list__icon"><Icon name="whatsapp" size={20} /></span>
+              <div>
+                <span class="contact-list__label">WhatsApp</span>
+                <a href={`https://wa.me/${business.whatsapp}`} target="_blank" rel="noopener">{business.phone}</a>
+              </div>
+            </li>
+            <li>
+              <span class="contact-list__icon"><Icon name="phone" size={20} /></span>
+              <div>
+                <span class="contact-list__label">Call us</span>
+                <a href={`tel:${business.phoneRaw}`}>{business.phone}</a>
+              </div>
+            </li>
+            <li>
+              <span class="contact-list__icon"><Icon name="mail" size={20} /></span>
+              <div>
+                <span class="contact-list__label">Email</span>
+                <a href={`mailto:${business.email}`}>{business.email}</a>
+              </div>
+            </li>
+            <li>
+              <span class="contact-list__icon"><Icon name="pin" size={20} /></span>
+              <div>
+                <span class="contact-list__label">Visit our factory &amp; studio</span>
+                <address>{business.addressOneLine}</address>
+              </div>
+            </li>
+            <li>
+              <span class="contact-list__icon"><Icon name="clock" size={20} /></span>
+              <div>
+                <span class="contact-list__label">Working hours</span>
+                <span>{business.hours}</span>
+              </div>
+            </li>
+          </ul>
+
+          <div class="contact-social">
+            <span>Follow us</span>
+            <div>
+              <a href={business.social.instagram} target="_blank" rel="noopener" aria-label="Instagram"><Icon name="instagram" size={20} /></a>
+              <a href={business.social.facebook} target="_blank" rel="noopener" aria-label="Facebook"><Icon name="facebook" size={20} /></a>
+              <a href={business.social.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn"><Icon name="linkedin" size={20} /></a>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Map -->
+  <section class="section--tight map-section">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">Find us</span>
+        <h2>Visit our Nagpur workshop</h2>
+      </div>
+    </div>
+    <div class="map">
+      <iframe
+        title="Veer Furnitech location on Google Maps"
+        src={business.mapEmbed}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact {
+    display: grid;
+    grid-template-columns: 1.3fr 0.85fr;
+    gap: clamp(1.8rem, 4vw, 3.5rem);
+    align-items: start;
+  }
+  .contact__lead {
+    color: var(--muted);
+    margin-bottom: 1.6rem;
+  }
+
+  /* Form */
+  .contact-form {
+    display: grid;
+    gap: 1.1rem;
+  }
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.1rem;
+  }
+  .field {
+    display: grid;
+    gap: 0.4rem;
+  }
+  .field label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--ink);
+  }
+  .opt {
+    font-weight: 400;
+    color: var(--muted);
+  }
+  .field input,
+  .field textarea {
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--ink);
+    background: var(--white);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 0.8rem 1rem;
+    transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  }
+  .field input:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--maroon);
+    box-shadow: 0 0 0 3px rgba(107, 29, 29, 0.12);
+  }
+  .field textarea {
+    resize: vertical;
+  }
+  .form-error {
+    color: #b3261e;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0;
+  }
+  .form-actions {
+    display: flex;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+    margin-top: 0.3rem;
+  }
+  .form-note {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin: 0.2rem 0 0;
+  }
+
+  /* Aside */
+  .contact-card {
+    background: linear-gradient(160deg, var(--maroon), var(--maroon-dark));
+    color: #f3e2db;
+    border-radius: var(--radius);
+    padding: clamp(1.6rem, 3vw, 2.2rem);
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: calc(var(--header-h) + 1.5rem);
+  }
+  .contact-card h3 {
+    color: #fff;
+    margin-bottom: 1.3rem;
+  }
+  .contact-list {
+    list-style: none;
+    margin: 0 0 1.6rem;
+    padding: 0;
+    display: grid;
+    gap: 1.1rem;
+  }
+  .contact-list li {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+  }
+  .contact-list__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--brass-light);
+    flex: none;
+  }
+  .contact-list__label {
+    display: block;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #d9bfb6;
+    margin-bottom: 2px;
+  }
+  .contact-list a,
+  .contact-list address,
+  .contact-list span:not(.contact-list__label) {
+    color: #fff;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  .contact-list a:hover {
+    color: var(--brass-light);
+  }
+  .contact-social {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-top: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .contact-social > span {
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #d9bfb6;
+  }
+  .contact-social div {
+    display: flex;
+    gap: 0.55rem;
+  }
+  .contact-social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #fff;
+    transition: transform 0.25s var(--ease), background 0.25s var(--ease),
+      color 0.25s var(--ease);
+  }
+  .contact-social a:hover {
+    background: var(--brass);
+    border-color: var(--brass);
+    color: #2a1c0c;
+    transform: translateY(-3px);
+  }
+
+  /* Map */
+  .map {
+    margin-top: 0.5rem;
+    height: clamp(320px, 45vh, 460px);
+    border-top: 4px solid var(--maroon);
+  }
+  .map iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    filter: saturate(0.9);
+  }
+
+  @media (max-width: 860px) {
+    .contact {
+      grid-template-columns: 1fr;
+    }
+    .contact-card {
+      position: static;
+    }
+  }
+  @media (max-width: 520px) {
+    .field-row {
+      grid-template-columns: 1fr;
+    }
+    .form-actions .btn {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  import { business, whatsappLink } from '../data/site.js';
+
+  const form = document.querySelector('[data-contact-form]');
+  const errorEl = document.querySelector('[data-form-error]');
+
+  if (form) {
+    let mode = 'whatsapp';
+    form.querySelectorAll('[data-send]').forEach((btn) =>
+      btn.addEventListener('click', () => {
+        mode = btn.getAttribute('data-send');
+      })
+    );
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const name = String(data.get('name') || '').trim();
+      const phone = String(data.get('phone') || '').trim();
+      const email = String(data.get('email') || '').trim();
+      const message = String(data.get('message') || '').trim();
+
+      if (!name || !phone || !message) {
+        if (errorEl) errorEl.hidden = false;
+        return;
+      }
+      if (errorEl) errorEl.hidden = true;
+
+      const bodyLines = [
+        `Name: ${name}`,
+        `Phone: ${phone}`,
+        email ? `Email: ${email}` : null,
+        '',
+        message,
+      ].filter(Boolean);
+
+      if (mode === 'email') {
+        const subject = `Website enquiry from ${name}`;
+        const mailto = `mailto:${business.email}?subject=${encodeURIComponent(
+          subject
+        )}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+        window.location.href = mailto;
+      } else {
+        const text = `New enquiry for Veer Furnitech:\n\n${bodyLines.join('\n')}`;
+        window.open(whatsappLink(text), '_blank', 'noopener');
+      }
+    });
+  }
+</script>

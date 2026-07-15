@@ -1,0 +1,221 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { nav, business, whatsappLink } from '../data/site.js';
+const path = Astro.url.pathname;
+const isActive = (href) =>
+  href === '/' ? path === '/' : path.startsWith(href);
+---
+
+<header class="site-header" id="site-header" data-header>
+  <div class="container header__inner">
+    <Logo />
+
+    <nav class="nav" aria-label="Primary">
+      <ul class="nav__list">
+        {nav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class={`nav__link ${isActive(item.href) ? 'is-active' : ''}`}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="header__cta">
+      <a class="btn btn--outline btn--sm" href={whatsappLink()} target="_blank" rel="noopener">
+        <Icon name="whatsapp" size={18} /> Get a Quote
+      </a>
+    </div>
+
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav" data-nav-toggle>
+      <Icon name="menu" size={26} />
+    </button>
+  </div>
+
+  <!-- Mobile drawer -->
+  <div class="mobile-nav" id="mobile-nav" data-mobile-nav hidden>
+    <ul class="mobile-nav__list">
+      {nav.map((item) => (
+        <li>
+          <a href={item.href} class={`mobile-nav__link ${isActive(item.href) ? 'is-active' : ''}`}>
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div class="mobile-nav__actions">
+      <a class="btn btn--brass" href={whatsappLink()} target="_blank" rel="noopener">
+        <Icon name="whatsapp" size={18} /> WhatsApp Us
+      </a>
+      <a class="btn btn--outline" href={`tel:${business.phoneRaw}`}>
+        <Icon name="phone" size={18} /> Call Now
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(248, 245, 242, 0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: box-shadow 0.3s var(--ease), background 0.3s var(--ease),
+      border-color 0.3s var(--ease);
+  }
+  .site-header.is-scrolled {
+    background: rgba(248, 245, 242, 0.95);
+    box-shadow: 0 6px 24px -14px rgba(74, 20, 20, 0.35);
+    border-bottom-color: var(--line);
+  }
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    height: var(--header-h);
+  }
+  .nav__list {
+    display: flex;
+    gap: 0.35rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav__link {
+    position: relative;
+    display: inline-block;
+    padding: 0.5rem 0.95rem;
+    font-weight: 500;
+    font-size: 0.98rem;
+    color: var(--ink);
+    border-radius: 8px;
+    transition: color 0.2s var(--ease), background 0.2s var(--ease);
+  }
+  .nav__link::after {
+    content: '';
+    position: absolute;
+    left: 0.95rem;
+    right: 0.95rem;
+    bottom: 0.3rem;
+    height: 2px;
+    background: var(--maroon);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s var(--ease);
+  }
+  .nav__link:hover {
+    color: var(--maroon);
+  }
+  .nav__link:hover::after,
+  .nav__link.is-active::after {
+    transform: scaleX(1);
+  }
+  .nav__link.is-active {
+    color: var(--maroon);
+    font-weight: 600;
+  }
+  .btn--sm {
+    padding: 0.6rem 1.1rem;
+    font-size: 0.88rem;
+  }
+  .header__cta {
+    display: flex;
+  }
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--maroon);
+    cursor: pointer;
+    padding: 0.35rem;
+  }
+
+  /* Mobile drawer */
+  .mobile-nav {
+    display: none;
+    padding: 1rem clamp(1.1rem, 4vw, 2.25rem) 1.75rem;
+    border-top: 1px solid var(--line);
+    background: var(--cream);
+    animation: drawer 0.28s var(--ease);
+  }
+  .mobile-nav.is-open {
+    display: block;
+  }
+  @keyframes drawer {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: none; }
+  }
+  .mobile-nav__list {
+    list-style: none;
+    margin: 0 0 1.2rem;
+    padding: 0;
+  }
+  .mobile-nav__link {
+    display: block;
+    padding: 0.85rem 0.4rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    border-bottom: 1px solid var(--line);
+  }
+  .mobile-nav__link.is-active {
+    color: var(--maroon);
+    font-weight: 600;
+  }
+  .mobile-nav__actions {
+    display: grid;
+    gap: 0.7rem;
+  }
+  .mobile-nav__actions .btn {
+    width: 100%;
+  }
+
+  @media (max-width: 860px) {
+    .nav,
+    .header__cta {
+      display: none;
+    }
+    .nav-toggle {
+      display: inline-flex;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector('[data-header]');
+  const toggle = document.querySelector('[data-nav-toggle]');
+  const drawer = document.querySelector('[data-mobile-nav]');
+
+  // Sticky header shadow on scroll
+  const onScroll = () => {
+    if (!header) return;
+    header.classList.toggle('is-scrolled', window.scrollY > 12);
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Mobile drawer
+  if (toggle && drawer) {
+    toggle.addEventListener('click', () => {
+      const open = drawer.classList.toggle('is-open');
+      drawer.hidden = !open;
+      toggle.setAttribute('aria-expanded', String(open));
+    });
+    drawer.querySelectorAll('a').forEach((link) =>
+      link.addEventListener('click', () => {
+        drawer.classList.remove('is-open');
+        drawer.hidden = true;
+        toggle.setAttribute('aria-expanded', 'false');
+      })
+    );
+  }
+</script>

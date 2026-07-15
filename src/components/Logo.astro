@@ -1,0 +1,49 @@
+---
+import { business } from '../data/site.js';
+// Official Veer Furnitech logo (transparent PNG in /public/logo.png).
+// `variant="light"` places it on a subtle light chip so the dark wordmark
+// stays legible on dark backgrounds (e.g. the footer).
+const { variant = 'dark' } = Astro.props;
+---
+
+<a class={`logo logo--${variant}`} href="/" aria-label={`${business.name} — home`}>
+  <img
+    src="/logo.png"
+    alt={`${business.name} — furniture & interior design in Nagpur`}
+    width="500"
+    height="500"
+    decoding="async"
+  />
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    line-height: 0;
+  }
+  .logo img {
+    height: 58px;
+    width: auto;
+    display: block;
+    transition: transform 0.35s var(--ease);
+  }
+  .logo:hover img {
+    transform: translateY(-2px) scale(1.03);
+  }
+  /* On dark surfaces, sit the logo on a soft light card for contrast */
+  .logo--light {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 0.5rem 0.75rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 22px -10px rgba(0, 0, 0, 0.45);
+  }
+  .logo--light img {
+    height: 64px;
+  }
+  @media (max-width: 480px) {
+    .logo img {
+      height: 46px;
+    }
+  }
+</style>

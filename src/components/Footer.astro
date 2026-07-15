@@ -1,0 +1,183 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { business, nav, services, whatsappLink } from '../data/site.js';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <Logo variant="light" />
+      <p class="footer__about">
+        Veer Furnitech is a Nagpur-based furniture manufacturing &amp; interior
+        design company delivering modular and custom solutions for homes and
+        offices — from concept to installation.
+      </p>
+      <div class="footer__social" aria-label="Social media">
+        <a href={business.social.instagram} target="_blank" rel="noopener" aria-label="Instagram"><Icon name="instagram" size={20} /></a>
+        <a href={business.social.facebook} target="_blank" rel="noopener" aria-label="Facebook"><Icon name="facebook" size={20} /></a>
+        <a href={business.social.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn"><Icon name="linkedin" size={20} /></a>
+      </div>
+    </div>
+
+    <div class="footer__col">
+      <h3 class="footer__title">Quick Links</h3>
+      <ul>
+        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h3 class="footer__title">Our Services</h3>
+      <ul>
+        {services.map((s) => <li><a href="/services/">{s.title}</a></li>)}
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h3 class="footer__title">Get in Touch</h3>
+      <ul class="footer__contact">
+        <li>
+          <Icon name="pin" size={18} />
+          <span>{business.addressOneLine}</span>
+        </li>
+        <li>
+          <Icon name="phone" size={18} />
+          <a href={`tel:${business.phoneRaw}`}>{business.phone}</a>
+        </li>
+        <li>
+          <Icon name="mail" size={18} />
+          <a href={`mailto:${business.email}`}>{business.email}</a>
+        </li>
+        <li>
+          <Icon name="clock" size={18} />
+          <span>{business.hours}</span>
+        </li>
+      </ul>
+      <a class="btn btn--brass btn--sm" href={whatsappLink()} target="_blank" rel="noopener">
+        <Icon name="whatsapp" size={18} /> Chat on WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <div class="footer__bar">
+    <div class="container footer__bar-inner">
+      <p>© {year} {business.name}. All rights reserved.</p>
+      <p>Furniture &amp; Interior Design · Nagpur, Maharashtra</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: linear-gradient(160deg, var(--maroon-dark), #3a0f0f);
+    color: #e9d8d0;
+  }
+  .footer__grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1.4fr;
+    gap: clamp(1.8rem, 4vw, 3rem);
+    padding-block: clamp(3rem, 6vw, 4.5rem);
+  }
+  .footer__about {
+    margin: 1.1rem 0 1.3rem;
+    font-size: 0.94rem;
+    line-height: 1.7;
+    color: #d8c2ba;
+    max-width: 34ch;
+  }
+  .footer__social {
+    display: flex;
+    gap: 0.6rem;
+  }
+  .footer__social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #f0dfd7;
+    transition: transform 0.25s var(--ease), background 0.25s var(--ease),
+      color 0.25s var(--ease);
+  }
+  .footer__social a:hover {
+    background: var(--brass);
+    border-color: var(--brass);
+    color: #2a1c0c;
+    transform: translateY(-3px);
+  }
+  .footer__title {
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--brass-light);
+    margin-bottom: 1rem;
+  }
+  .footer__col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .footer__col a {
+    color: #d8c2ba;
+    font-size: 0.94rem;
+    transition: color 0.2s var(--ease), padding-left 0.2s var(--ease);
+  }
+  .footer__col a:hover {
+    color: #fff;
+    padding-left: 4px;
+  }
+  .footer__contact li {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    font-size: 0.92rem;
+    color: #d8c2ba;
+    margin-bottom: 0.85rem;
+  }
+  .footer__contact :global(svg) {
+    color: var(--brass-light);
+    flex: none;
+    margin-top: 2px;
+  }
+  .footer__col .btn {
+    margin-top: 0.4rem;
+  }
+  .btn--sm {
+    padding: 0.6rem 1.1rem;
+    font-size: 0.88rem;
+  }
+
+  .footer__bar {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .footer__bar-inner {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    padding-block: 1.2rem;
+    font-size: 0.85rem;
+    color: #c3aaa1;
+  }
+  .footer__bar-inner p {
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .footer__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 560px) {
+    .footer__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
